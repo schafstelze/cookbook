@@ -64,7 +64,6 @@ var React = require('react');
 var TR = React.createClass({displayName: 'TR',
 	render: function() {
 		var recipe = this.props.recipe;
-		console.log(recipe.title);
 		return (
 			React.createElement("tr", null, 
 				React.createElement(TD, {isHead: this.props.isHead, childs: recipe.title})

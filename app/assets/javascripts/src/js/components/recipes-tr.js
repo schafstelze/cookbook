@@ -5,7 +5,6 @@ var React = require('react');
 var TR = React.createClass({
 	render: function() {
 		var recipe = this.props.recipe;
-		console.log(recipe.title);
 		return (
 			<tr>
 				<TD isHead={this.props.isHead} childs={recipe.title} />
