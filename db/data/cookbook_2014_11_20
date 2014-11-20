@@ -1,0 +1,987 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.3.5
+-- Dumped by pg_dump version 9.3.5
+-- Started on 2014-11-20 15:39:32 CET
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 193 (class 3079 OID 12018)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2328 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 176 (class 1259 OID 16775)
+-- Name: categories; Type: TABLE; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE TABLE categories (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.categories OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 175 (class 1259 OID 16773)
+-- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: cookbook-admin
+--
+
+CREATE SEQUENCE categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.categories_id_seq OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 2329 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cookbook-admin
+--
+
+ALTER SEQUENCE categories_id_seq OWNED BY categories.id;
+
+
+--
+-- TOC entry 174 (class 1259 OID 16767)
+-- Name: category_mappings; Type: TABLE; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE TABLE category_mappings (
+    id integer NOT NULL,
+    recipe_id integer,
+    category_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.category_mappings OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 173 (class 1259 OID 16765)
+-- Name: category_mappings_id_seq; Type: SEQUENCE; Schema: public; Owner: cookbook-admin
+--
+
+CREATE SEQUENCE category_mappings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.category_mappings_id_seq OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 2330 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: category_mappings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cookbook-admin
+--
+
+ALTER SEQUENCE category_mappings_id_seq OWNED BY category_mappings.id;
+
+
+--
+-- TOC entry 182 (class 1259 OID 16803)
+-- Name: ingredients; Type: TABLE; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE TABLE ingredients (
+    id integer NOT NULL,
+    recipe_id integer,
+    quantity_id integer,
+    material_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.ingredients OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 181 (class 1259 OID 16801)
+-- Name: ingredients_id_seq; Type: SEQUENCE; Schema: public; Owner: cookbook-admin
+--
+
+CREATE SEQUENCE ingredients_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ingredients_id_seq OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 2331 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: ingredients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cookbook-admin
+--
+
+ALTER SEQUENCE ingredients_id_seq OWNED BY ingredients.id;
+
+
+--
+-- TOC entry 192 (class 1259 OID 16846)
+-- Name: material_categories; Type: TABLE; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE TABLE material_categories (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.material_categories OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 191 (class 1259 OID 16844)
+-- Name: material_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: cookbook-admin
+--
+
+CREATE SEQUENCE material_categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.material_categories_id_seq OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 2332 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: material_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cookbook-admin
+--
+
+ALTER SEQUENCE material_categories_id_seq OWNED BY material_categories.id;
+
+
+--
+-- TOC entry 190 (class 1259 OID 16838)
+-- Name: materials; Type: TABLE; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE TABLE materials (
+    id integer NOT NULL,
+    name character varying(255),
+    category_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.materials OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 189 (class 1259 OID 16836)
+-- Name: materials_id_seq; Type: SEQUENCE; Schema: public; Owner: cookbook-admin
+--
+
+CREATE SEQUENCE materials_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.materials_id_seq OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 2333 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: materials_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cookbook-admin
+--
+
+ALTER SEQUENCE materials_id_seq OWNED BY materials.id;
+
+
+--
+-- TOC entry 178 (class 1259 OID 16783)
+-- Name: photo_mappings; Type: TABLE; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE TABLE photo_mappings (
+    id integer NOT NULL,
+    recipe_id integer,
+    photo_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.photo_mappings OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 177 (class 1259 OID 16781)
+-- Name: photo_mappings_id_seq; Type: SEQUENCE; Schema: public; Owner: cookbook-admin
+--
+
+CREATE SEQUENCE photo_mappings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.photo_mappings_id_seq OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 2334 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: photo_mappings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cookbook-admin
+--
+
+ALTER SEQUENCE photo_mappings_id_seq OWNED BY photo_mappings.id;
+
+
+--
+-- TOC entry 180 (class 1259 OID 16791)
+-- Name: photos; Type: TABLE; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE TABLE photos (
+    id integer NOT NULL,
+    key character varying(36),
+    title character varying(255),
+    path character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.photos OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 179 (class 1259 OID 16789)
+-- Name: photos_id_seq; Type: SEQUENCE; Schema: public; Owner: cookbook-admin
+--
+
+CREATE SEQUENCE photos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.photos_id_seq OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 2335 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: photos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cookbook-admin
+--
+
+ALTER SEQUENCE photos_id_seq OWNED BY photos.id;
+
+
+--
+-- TOC entry 184 (class 1259 OID 16811)
+-- Name: quantities; Type: TABLE; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE TABLE quantities (
+    id integer NOT NULL,
+    quantity_unit_id integer,
+    quantity_amount_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.quantities OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 183 (class 1259 OID 16809)
+-- Name: quantities_id_seq; Type: SEQUENCE; Schema: public; Owner: cookbook-admin
+--
+
+CREATE SEQUENCE quantities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.quantities_id_seq OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 2336 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: quantities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cookbook-admin
+--
+
+ALTER SEQUENCE quantities_id_seq OWNED BY quantities.id;
+
+
+--
+-- TOC entry 188 (class 1259 OID 16827)
+-- Name: quantity_amounts; Type: TABLE; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE TABLE quantity_amounts (
+    id integer NOT NULL,
+    amount numeric,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.quantity_amounts OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 187 (class 1259 OID 16825)
+-- Name: quantity_amounts_id_seq; Type: SEQUENCE; Schema: public; Owner: cookbook-admin
+--
+
+CREATE SEQUENCE quantity_amounts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.quantity_amounts_id_seq OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 2337 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: quantity_amounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cookbook-admin
+--
+
+ALTER SEQUENCE quantity_amounts_id_seq OWNED BY quantity_amounts.id;
+
+
+--
+-- TOC entry 186 (class 1259 OID 16819)
+-- Name: quantity_units; Type: TABLE; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE TABLE quantity_units (
+    id integer NOT NULL,
+    unit character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.quantity_units OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 185 (class 1259 OID 16817)
+-- Name: quantity_units_id_seq; Type: SEQUENCE; Schema: public; Owner: cookbook-admin
+--
+
+CREATE SEQUENCE quantity_units_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.quantity_units_id_seq OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 2338 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: quantity_units_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cookbook-admin
+--
+
+ALTER SEQUENCE quantity_units_id_seq OWNED BY quantity_units.id;
+
+
+--
+-- TOC entry 172 (class 1259 OID 16756)
+-- Name: recipes; Type: TABLE; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE TABLE recipes (
+    id integer NOT NULL,
+    title character varying(255),
+    instruction text,
+    working_time numeric,
+    number_of_servings integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.recipes OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 171 (class 1259 OID 16754)
+-- Name: recipes_id_seq; Type: SEQUENCE; Schema: public; Owner: cookbook-admin
+--
+
+CREATE SEQUENCE recipes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.recipes_id_seq OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 2339 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: recipes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cookbook-admin
+--
+
+ALTER SEQUENCE recipes_id_seq OWNED BY recipes.id;
+
+
+--
+-- TOC entry 170 (class 1259 OID 16750)
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE TABLE schema_migrations (
+    version character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.schema_migrations OWNER TO "cookbook-admin";
+
+--
+-- TOC entry 2158 (class 2604 OID 16778)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cookbook-admin
+--
+
+ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
+
+
+--
+-- TOC entry 2157 (class 2604 OID 16770)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cookbook-admin
+--
+
+ALTER TABLE ONLY category_mappings ALTER COLUMN id SET DEFAULT nextval('category_mappings_id_seq'::regclass);
+
+
+--
+-- TOC entry 2161 (class 2604 OID 16806)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cookbook-admin
+--
+
+ALTER TABLE ONLY ingredients ALTER COLUMN id SET DEFAULT nextval('ingredients_id_seq'::regclass);
+
+
+--
+-- TOC entry 2166 (class 2604 OID 16849)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cookbook-admin
+--
+
+ALTER TABLE ONLY material_categories ALTER COLUMN id SET DEFAULT nextval('material_categories_id_seq'::regclass);
+
+
+--
+-- TOC entry 2165 (class 2604 OID 16841)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cookbook-admin
+--
+
+ALTER TABLE ONLY materials ALTER COLUMN id SET DEFAULT nextval('materials_id_seq'::regclass);
+
+
+--
+-- TOC entry 2159 (class 2604 OID 16786)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cookbook-admin
+--
+
+ALTER TABLE ONLY photo_mappings ALTER COLUMN id SET DEFAULT nextval('photo_mappings_id_seq'::regclass);
+
+
+--
+-- TOC entry 2160 (class 2604 OID 16794)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cookbook-admin
+--
+
+ALTER TABLE ONLY photos ALTER COLUMN id SET DEFAULT nextval('photos_id_seq'::regclass);
+
+
+--
+-- TOC entry 2162 (class 2604 OID 16814)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cookbook-admin
+--
+
+ALTER TABLE ONLY quantities ALTER COLUMN id SET DEFAULT nextval('quantities_id_seq'::regclass);
+
+
+--
+-- TOC entry 2164 (class 2604 OID 16830)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cookbook-admin
+--
+
+ALTER TABLE ONLY quantity_amounts ALTER COLUMN id SET DEFAULT nextval('quantity_amounts_id_seq'::regclass);
+
+
+--
+-- TOC entry 2163 (class 2604 OID 16822)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cookbook-admin
+--
+
+ALTER TABLE ONLY quantity_units ALTER COLUMN id SET DEFAULT nextval('quantity_units_id_seq'::regclass);
+
+
+--
+-- TOC entry 2156 (class 2604 OID 16759)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cookbook-admin
+--
+
+ALTER TABLE ONLY recipes ALTER COLUMN id SET DEFAULT nextval('recipes_id_seq'::regclass);
+
+
+--
+-- TOC entry 2304 (class 0 OID 16775)
+-- Dependencies: 176
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: cookbook-admin
+--
+
+COPY categories (id, name, created_at, updated_at) FROM stdin;
+1	Suppe	\N	\N
+2	Hackfleisch	\N	\N
+3	Käse	\N	\N
+4	Hauptgericht	\N	\N
+5	Rind	\N	\N
+\.
+
+
+--
+-- TOC entry 2340 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cookbook-admin
+--
+
+SELECT pg_catalog.setval('categories_id_seq', 5, true);
+
+
+--
+-- TOC entry 2302 (class 0 OID 16767)
+-- Dependencies: 174
+-- Data for Name: category_mappings; Type: TABLE DATA; Schema: public; Owner: cookbook-admin
+--
+
+COPY category_mappings (id, recipe_id, category_id, created_at, updated_at) FROM stdin;
+1	1	1	\N	\N
+2	1	2	\N	\N
+3	1	3	\N	\N
+4	1	4	\N	\N
+\.
+
+
+--
+-- TOC entry 2341 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: category_mappings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cookbook-admin
+--
+
+SELECT pg_catalog.setval('category_mappings_id_seq', 4, true);
+
+
+--
+-- TOC entry 2310 (class 0 OID 16803)
+-- Dependencies: 182
+-- Data for Name: ingredients; Type: TABLE DATA; Schema: public; Owner: cookbook-admin
+--
+
+COPY ingredients (id, recipe_id, quantity_id, material_id, created_at, updated_at) FROM stdin;
+1	1	1	1	2014-11-14 12:33:59.197248	2014-11-14 12:33:59.197248
+2	1	1	2	2014-11-14 12:33:59.197248	2014-11-14 12:33:59.197248
+3	1	1	3	2014-11-14 12:33:59.197248	2014-11-14 12:33:59.197248
+4	1	3	4	2014-11-14 12:33:59.197248	2014-11-14 12:33:59.197248
+5	1	2	5	2014-11-14 12:33:59.197248	2014-11-14 12:33:59.197248
+6	1	4	6	2014-11-14 12:33:59.197248	2014-11-14 12:33:59.197248
+7	1	5	7	2014-11-14 12:33:59.197248	2014-11-14 12:33:59.197248
+8	1	5	8	2014-11-14 12:33:59.197248	2014-11-14 12:33:59.197248
+9	1	4	9	2014-11-14 12:33:59.197248	2014-11-14 12:33:59.197248
+10	1	4	10	2014-11-14 12:33:59.197248	2014-11-14 12:33:59.197248
+11	1	5	11	2014-11-14 12:33:59.197248	2014-11-14 12:33:59.197248
+\.
+
+
+--
+-- TOC entry 2342 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cookbook-admin
+--
+
+SELECT pg_catalog.setval('ingredients_id_seq', 11, true);
+
+
+--
+-- TOC entry 2320 (class 0 OID 16846)
+-- Dependencies: 192
+-- Data for Name: material_categories; Type: TABLE DATA; Schema: public; Owner: cookbook-admin
+--
+
+COPY material_categories (id, name, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2343 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: material_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cookbook-admin
+--
+
+SELECT pg_catalog.setval('material_categories_id_seq', 1, false);
+
+
+--
+-- TOC entry 2318 (class 0 OID 16838)
+-- Dependencies: 190
+-- Data for Name: materials; Type: TABLE DATA; Schema: public; Owner: cookbook-admin
+--
+
+COPY materials (id, name, category_id, created_at, updated_at) FROM stdin;
+1	Rinderhack	\N	2014-11-14 11:59:30.984165	2014-11-14 11:59:30.984165
+2	Zwiebel(n)	\N	2014-11-14 11:59:30.984165	2014-11-14 11:59:30.984165
+3	Porree	\N	2014-11-14 11:59:30.984165	2014-11-14 11:59:30.984165
+4	Rinderbrühe	\N	2014-11-14 11:59:30.984165	2014-11-14 11:59:30.984165
+5	Schmelzkäse mit Kräutern	\N	2014-11-14 11:59:30.984165	2014-11-14 11:59:30.984165
+6	Rosmarin	\N	2014-11-14 11:59:30.984165	2014-11-14 11:59:30.984165
+7	Salz	\N	2014-11-14 11:59:30.984165	2014-11-14 11:59:30.984165
+8	Pfeffer	\N	2014-11-14 11:59:30.984165	2014-11-14 11:59:30.984165
+9	Thymian	\N	2014-11-14 11:59:30.984165	2014-11-14 11:59:30.984165
+10	Basilikum	\N	2014-11-14 11:59:30.984165	2014-11-14 11:59:30.984165
+11	Cayennepfeffer	\N	2014-11-14 11:59:30.984165	2014-11-14 11:59:30.984165
+\.
+
+
+--
+-- TOC entry 2344 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: materials_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cookbook-admin
+--
+
+SELECT pg_catalog.setval('materials_id_seq', 11, true);
+
+
+--
+-- TOC entry 2306 (class 0 OID 16783)
+-- Dependencies: 178
+-- Data for Name: photo_mappings; Type: TABLE DATA; Schema: public; Owner: cookbook-admin
+--
+
+COPY photo_mappings (id, recipe_id, photo_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2345 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: photo_mappings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cookbook-admin
+--
+
+SELECT pg_catalog.setval('photo_mappings_id_seq', 1, false);
+
+
+--
+-- TOC entry 2308 (class 0 OID 16791)
+-- Dependencies: 180
+-- Data for Name: photos; Type: TABLE DATA; Schema: public; Owner: cookbook-admin
+--
+
+COPY photos (id, key, title, path, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2346 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: photos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cookbook-admin
+--
+
+SELECT pg_catalog.setval('photos_id_seq', 1, false);
+
+
+--
+-- TOC entry 2312 (class 0 OID 16811)
+-- Dependencies: 184
+-- Data for Name: quantities; Type: TABLE DATA; Schema: public; Owner: cookbook-admin
+--
+
+COPY quantities (id, quantity_unit_id, quantity_amount_id, created_at, updated_at) FROM stdin;
+1	1	1	2014-11-14 12:09:00.890921	2014-11-14 12:09:00.890921
+2	1	3	2014-11-14 12:09:00.890921	2014-11-14 12:09:00.890921
+3	6	2	2014-11-14 12:09:00.890921	2014-11-14 12:09:00.890921
+4	7	4	2014-11-14 12:09:00.890921	2014-11-14 12:09:00.890921
+5	8	5	2014-11-14 12:09:00.890921	2014-11-14 12:09:00.890921
+\.
+
+
+--
+-- TOC entry 2347 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: quantities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cookbook-admin
+--
+
+SELECT pg_catalog.setval('quantities_id_seq', 5, true);
+
+
+--
+-- TOC entry 2316 (class 0 OID 16827)
+-- Dependencies: 188
+-- Data for Name: quantity_amounts; Type: TABLE DATA; Schema: public; Owner: cookbook-admin
+--
+
+COPY quantity_amounts (id, amount, created_at, updated_at) FROM stdin;
+1	500	2014-11-14 11:50:14.313091	2014-11-14 11:50:14.313091
+2	1.5	2014-11-14 11:50:14.313091	2014-11-14 11:50:14.313091
+3	400	2014-11-14 11:50:14.313091	2014-11-14 11:50:14.313091
+4	1	2014-11-14 11:50:14.313091	2014-11-14 11:50:14.313091
+5	0	2014-11-14 11:50:14.313091	2014-11-14 11:50:14.313091
+\.
+
+
+--
+-- TOC entry 2348 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: quantity_amounts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cookbook-admin
+--
+
+SELECT pg_catalog.setval('quantity_amounts_id_seq', 5, true);
+
+
+--
+-- TOC entry 2314 (class 0 OID 16819)
+-- Dependencies: 186
+-- Data for Name: quantity_units; Type: TABLE DATA; Schema: public; Owner: cookbook-admin
+--
+
+COPY quantity_units (id, unit, created_at, updated_at) FROM stdin;
+1	g	2014-11-14 11:37:54.072225	2014-11-14 11:37:54.072225
+6	Liter	2014-11-14 11:47:41.066754	2014-11-14 11:47:41.066754
+7	TL	2014-11-14 11:47:41.066754	2014-11-14 11:47:41.066754
+8		2014-11-14 11:47:41.066754	2014-11-14 11:47:41.066754
+\.
+
+
+--
+-- TOC entry 2349 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: quantity_units_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cookbook-admin
+--
+
+SELECT pg_catalog.setval('quantity_units_id_seq', 8, true);
+
+
+--
+-- TOC entry 2300 (class 0 OID 16756)
+-- Dependencies: 172
+-- Data for Name: recipes; Type: TABLE DATA; Schema: public; Owner: cookbook-admin
+--
+
+COPY recipes (id, title, instruction, working_time, number_of_servings, created_at, updated_at) FROM stdin;
+1	Hack - Käse - Porree - Suppe	Das Gehackte scharf anbraten und mit den kleingeschnittenen Zwiebeln/Porree 20 min. schmoren lassen. Brühe zugeben, erhitzen.\nDann den Kräuterkäse und die Gewürze zufügen, aufkochen.\nAm Besten über Nacht abkühlen lassen.\nVorm Servieren aufwärmen.	10	4	2014-11-14 12:20:52.675783	2014-11-14 12:20:52.675783
+\.
+
+
+--
+-- TOC entry 2350 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: recipes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cookbook-admin
+--
+
+SELECT pg_catalog.setval('recipes_id_seq', 1, true);
+
+
+--
+-- TOC entry 2298 (class 0 OID 16750)
+-- Dependencies: 170
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: cookbook-admin
+--
+
+COPY schema_migrations (version) FROM stdin;
+20141111164248
+20141111164805
+20141111164811
+20141111164815
+20141111164820
+20141111164825
+20141111164829
+20141111164834
+20141111164838
+20141111164842
+20141111164847
+\.
+
+
+--
+-- TOC entry 2173 (class 2606 OID 16780)
+-- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+ALTER TABLE ONLY categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2171 (class 2606 OID 16772)
+-- Name: category_mappings_pkey; Type: CONSTRAINT; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+ALTER TABLE ONLY category_mappings
+    ADD CONSTRAINT category_mappings_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2180 (class 2606 OID 16808)
+-- Name: ingredients_pkey; Type: CONSTRAINT; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+ALTER TABLE ONLY ingredients
+    ADD CONSTRAINT ingredients_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2190 (class 2606 OID 16851)
+-- Name: material_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+ALTER TABLE ONLY material_categories
+    ADD CONSTRAINT material_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2188 (class 2606 OID 16843)
+-- Name: materials_pkey; Type: CONSTRAINT; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+ALTER TABLE ONLY materials
+    ADD CONSTRAINT materials_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2175 (class 2606 OID 16788)
+-- Name: photo_mappings_pkey; Type: CONSTRAINT; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+ALTER TABLE ONLY photo_mappings
+    ADD CONSTRAINT photo_mappings_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2178 (class 2606 OID 16799)
+-- Name: photos_pkey; Type: CONSTRAINT; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+ALTER TABLE ONLY photos
+    ADD CONSTRAINT photos_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2182 (class 2606 OID 16816)
+-- Name: quantities_pkey; Type: CONSTRAINT; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+ALTER TABLE ONLY quantities
+    ADD CONSTRAINT quantities_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2186 (class 2606 OID 16835)
+-- Name: quantity_amounts_pkey; Type: CONSTRAINT; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+ALTER TABLE ONLY quantity_amounts
+    ADD CONSTRAINT quantity_amounts_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2184 (class 2606 OID 16824)
+-- Name: quantity_units_pkey; Type: CONSTRAINT; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+ALTER TABLE ONLY quantity_units
+    ADD CONSTRAINT quantity_units_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2169 (class 2606 OID 16764)
+-- Name: recipes_pkey; Type: CONSTRAINT; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+ALTER TABLE ONLY recipes
+    ADD CONSTRAINT recipes_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2176 (class 1259 OID 16853)
+-- Name: index_photos_on_key; Type: INDEX; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_photos_on_key ON photos USING btree (key);
+
+
+--
+-- TOC entry 2167 (class 1259 OID 16753)
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: cookbook-admin; Tablespace: 
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- TOC entry 2327 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2014-11-20 15:39:32 CET
+
+--
+-- PostgreSQL database dump complete
+--
+
